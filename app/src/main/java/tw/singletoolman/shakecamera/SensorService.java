@@ -59,6 +59,8 @@ public class SensorService extends Service implements SensorEventListener{
 
             startForeground(101, notification);
 
+        }else{
+            startForeground(1,new Notification());
         }
     }
 
