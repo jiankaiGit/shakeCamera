@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">摇出相机</string>
+    <string name="sensitivity_label">敏感度(5~30)</string>
+    <string name="already_enable">服务已开启</string>
+    <string name="enable">已开启，可以关闭此程式</string>
+    <string name="disable">已关闭</string>
+    <string name="input_finish">输入完成</string>
 </resources>

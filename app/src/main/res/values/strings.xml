@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">shakeCamera</string>
+    <string name="app_name">ShakeCamera</string>
+    <string name="sensitivity_label">Sensitivity(5~30)</string>
+    <string name="already_enable">Service is on</string>
+    <string name="enable">Service is on, you can close this program</string>
+    <string name="disable">Closed</string>
+    <string name="input_finish">Setting Completed</string>
 </resources>
