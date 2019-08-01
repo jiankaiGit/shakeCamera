@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -30,6 +31,14 @@ public class SensorService extends Service implements SensorEventListener{
     private Handler  setCameraFlagHandler = new Handler();;
     private Runnable setCameraFlagRunnable;
     private boolean cameraFlag = true;
+    private static boolean mIsRunning = false;
+    private static int mThreshold = 11;
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mIsRunning = false;
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -65,10 +74,14 @@ public class SensorService extends Service implements SensorEventListener{
         mAccelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
         float delta = mAccelCurrent - mAccelLast;
         mAccel = mAccel * 0.9f + delta; // perform low-cut filter
-
-        if (mAccel > 11 && cameraFlag) {
-            Log.e(TAG,"flag: "+cameraFlag);
+        if(mThreshold <5){
+            mThreshold = 5;
+        }else if(mThreshold > 30){
+            mThreshold = 30;
+        }
+        if (mAccel > mThreshold && cameraFlag) {
             cameraFlag = false;
+            Log.e(TAG,"sensitivity: "+mThreshold);
             showNotification();
             setCameraFlagHandler.postDelayed(setCameraFlagRunnable,5000);
         }
@@ -81,7 +94,7 @@ public class SensorService extends Service implements SensorEventListener{
 
         KeyguardManager mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
         boolean flag = mKeyguardManager.inKeyguardRestrictedInputMode();
-        if(ifOpen & !flag){
+        if(ifOpen & !flag & mIsRunning){
             Log.e(TAG,"shake!!!!!!!!!");
             openCamera();
         }
@@ -97,5 +110,17 @@ public class SensorService extends Service implements SensorEventListener{
         if(intent != null){
             startActivity(intent);
         }
+    }
+
+    public static void setRunningStatus(boolean running){
+        mIsRunning = running;
+    }
+
+    public static boolean getRunningStatus(){
+        return mIsRunning;
+    }
+
+    public static void setThreshold(int threshold){
+        mThreshold = threshold;
     }
 }

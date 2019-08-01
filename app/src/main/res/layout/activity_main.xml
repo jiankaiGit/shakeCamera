@@ -6,16 +6,56 @@
     android:layout_height="match_parent"
     tools:context="tw.singletoolman.shakecamera.MainActivity">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="start" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:text="stop" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/power_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="50dp"
+            android:layout_marginRight="10dp"
+            app:srcCompat="@android:drawable/ic_lock_power_off" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="@string/sensitivity_label"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/sensitivity_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ems="5"
+                android:maxEms="2"
+                android:singleLine="true"
+                android:inputType="numberDecimal"
+                android:text="5"
+                android:textAlignment="center"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+    </FrameLayout>
+
 </android.widget.RelativeLayout>
