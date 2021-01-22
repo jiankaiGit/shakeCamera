@@ -4,6 +4,7 @@ import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -135,9 +136,30 @@ public class SensorService extends Service implements SensorEventListener{
     }
 
     public void openCamera() {
-        Intent intent = getPackageManager().getLaunchIntentForPackage(cameraPackageName);
-        if(intent != null){
-            startActivity(intent);
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.P){
+            Intent intent = getPackageManager().getLaunchIntentForPackage(cameraPackageName);
+            PendingIntent pendingIntent = PendingIntent.getActivities(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+            NotificationChannel channel = new NotificationChannel(getResources().getString(R.string.app_name), getResources().getString(R.string.app_name), NotificationManager.IMPORTANCE_LOW);
+
+            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            if (manager == null)
+                return;
+            manager.createNotificationChannel(channel);
+
+            Notification notification = new NotificationCompat.Builder(this, getResources().getString(R.string.app_name))
+                    .setAutoCancel(true)
+                    .setCategory(Notification.CATEGORY_SERVICE)
+                    .setOngoing(true)
+                    .setPriority(NotificationManager.IMPORTANCE_LOW)
+                    .build();
+            startForeground(101, notification);
+
+
+        }else{
+            Intent intent = getPackageManager().getLaunchIntentForPackage(cameraPackageName);
+            if(intent != null){
+                startActivity(intent);
+            }
         }
     }
 
